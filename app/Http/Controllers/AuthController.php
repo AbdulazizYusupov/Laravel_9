@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -49,5 +50,27 @@ class AuthController
     {
         Auth::logout();
         return redirect('/');
+    }
+    public function index()
+    {
+        $users = User::all();
+        return view('users.index',['users' => $users]);
+    }
+    public function update(Request $request, User $user)
+    {
+        $request->validate([
+            'role' => 'required|max:255',
+        ]);
+        $user->role = $request->role;
+        $user->save();
+        return redirect()->route('user');
+    }
+
+    public function destroy(Request $request, User $user)
+    {
+        $id = $request->id;
+        $destroy = User::findOrFail($id);
+        $destroy->delete();
+        return redirect()->route('user');
     }
 }
