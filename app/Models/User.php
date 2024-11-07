@@ -45,16 +45,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public function like_or_dislikes()
-    {
-        return $this->hasOne(LikeOrDislike::class, 'user_id', 'id');
-    }
-    public function comments()
-    {
-        return $this->hasOne(Comment::class, 'post_id', 'id');
-    }
     public function roles()
     {
-        return $this->belongsToMany(Roles::class,'role_users','user_id','role_id');
+        return $this->belongsToMany(Roles::class,'role_users','user_id','role_id')->where('roles.is_active',1);
     }
 }
