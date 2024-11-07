@@ -12,25 +12,17 @@
                 <form class="form-group mt-4" action="{{ route('post.store') }}" method="post"
                       enctype="multipart/form-data">
                     @csrf
-                    <input type="text" name="title" class="form-control" placeholder="Enter Title"
-                           value="{{ old('title') }}">
                     @error('title')
                     <div class="text-danger">{{ $message }}</div>
                     @enderror
-                    <br>
+                    <input type="text" name="title" class="form-control" placeholder="Enter Title"
+                           value="{{ old('title') }}">
 
-                    <input type="text" name="body" class="form-control" placeholder="Enter Body"
-                           value="{{ old('body') }}">
                     @error('body')
                     <div class="text-danger">{{ $message }}</div>
                     @enderror
-                    <br>
-
-                    <input type="file" name="image" class="form-control">
-                    @error('image')
-                    <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                    <br>
+                    <input type="text" name="body" class="form-control" placeholder="Enter Body"
+                           value="{{ old('body') }}">
 
                     <input type="submit" value="Add Post" class="btn btn-outline-info">
                 </form>

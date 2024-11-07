@@ -5,17 +5,17 @@
         <div class="content-header">
             <div class="container-fluid">
                 @if (session('create'))
-                    <div class="alert alert-success" role="alert">
+                    <div class="alert alert-succes alert-dismissible fade show" role="alert">
                         {{ session('create') }}
                     </div>
                 @endif
                 @if (session('delete'))
-                    <div class="alert alert-danger" role="alert">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         {{ session('delete') }}
                     </div>
                 @endif
                 @if (session('update'))
-                    <div class="alert alert-info" role="alert">
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
                         {{ session('update') }}
                     </div>
                 @endif

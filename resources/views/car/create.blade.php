@@ -25,24 +25,21 @@
                               method="POST">
                             @csrf
                             <div class="mb-3">
-                                <label class="form-label" id="model">Model</label>
-                                <input type="text" id="model" class="form-control"
-                                       name="model" placeholder="Enter Model"><br>
                                 @error('model')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
-                                <label class="form-label" id="color">Color</label>
-                                <input type="text" class="form-control"
-                                       name="color" id="color" placeholder="Enter Color"><br>
+                                <input type="text" id="model" class="form-control"
+                                       name="model" value="{{old('model')}}" placeholder="Enter Model"><br>
                                 @error('color')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
-                                <label class="form-label" id="price">Price</label>
-                                <input type="number" class="form-control"
-                                       name="price" id="price" placeholder="Enter Price"><br>
+                                <input type="text" class="form-control"
+                                       name="color" value="{{old('color')}}" id="color" placeholder="Enter Color"><br>
                                 @error('price')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
+                                <input type="number" class="form-control"
+                                       name="price" value="{{old('price')}}" id="price" placeholder="Enter Price"><br>
                                 <input type="submit" value="Add Post" class="btn btn-outline-info">
                             </div>
                         </form>

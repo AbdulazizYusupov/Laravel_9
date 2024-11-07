@@ -25,25 +25,22 @@
                               method="POST">
                             @csrf
                             <div class="mb-3">
-                                <label class="form-label">Name</label>
-                                <input type="text" class="form-control"
-                                       name="name" placeholder="Enter name"><br>
                                 @error('name')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
-                                <label class="form-label">Price</label>
-                                <input type="number" class="form-control"
-                                       name="price" placeholder="Enter price"><br>
+                                <input type="text" class="form-control"
+                                       name="name" value="{{old('name')}}" placeholder="Enter name"><br>
                                 @error('price')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
-                                <label class="form-label">Count</label>
                                 <input type="number" class="form-control"
-                                       name="count" placeholder="Enter count">
-                                <input type="submit" value="Add Post" class="btn btn-outline-info">
+                                       name="price" value="{{old('price')}}" placeholder="Enter price"><br>
                                 @error('count')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
+                                <input type="number" class="form-control"
+                                       name="count" value="{{old('count')}}" placeholder="Enter count">
+                                <input type="submit" value="Add Post" class="btn btn-outline-info">
                             </div>
                         </form>
                     </div>

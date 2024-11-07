@@ -25,18 +25,16 @@
                               method="POST">
                             @csrf
                             <div class="mb-3">
-                                <label class="form-label">Name</label>
-                                <input type="text" class="form-control"
-                                       name="name" placeholder="Enter name"><br>
                                 @error('name')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
-                                <label class="form-label">Tr</label>
-                                <input type="number" class="form-control"
-                                       name="tr">
+                                <input type="text" class="form-control"
+                                       name="name" value="{{old('name')}}" placeholder="Enter name"><br>
                                 @error('tr')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
+                                <input type="number" class="form-control"
+                                       name="tr" value="{{old('tr')}}">
                                 <input type="submit" value="Add Post" class="btn btn-outline-info">
                             </div>
                         </form>

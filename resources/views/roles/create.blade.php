@@ -25,9 +25,11 @@
                               method="POST">
                             @csrf
                             <div class="mb-3">
-                                <label class="form-label">Name</label>
+                                @error('name')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
                                 <input type="text" class="form-control"
-                                       name="name">
+                                       name="name" value="{{old('name')}}">
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -45,9 +47,6 @@
                                     </select>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">Close
-                            </button>
                             <button type="submit" class="btn btn-primary">Add
                             </button>
                         </form>
