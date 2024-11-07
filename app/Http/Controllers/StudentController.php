@@ -10,7 +10,7 @@ class StudentController
 {
     public function index()
     {
-        $students = Student::all();
+        $students = Student::orderBy('id', 'asc')->paginate(10);
         return view('student.index', ["students" => $students]);
     }
 

@@ -53,7 +53,7 @@ class AuthController
     }
     public function index()
     {
-        $users = User::all();
+        $users = User::orderBy('id', 'asc')->paginate(10);
         return view('users.index',['users' => $users]);
     }
     public function update(Request $request, User $user)
