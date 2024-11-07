@@ -21,31 +21,41 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <form action="{{route('user.create')}}" method="POST">
+                        <form action="{{ route('user.store') }}"
+                              method="POST">
                             @csrf
-                            <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label">Name</label>
+                                <input type="text" class="form-control"
+                                       name="name"><br>
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control"
+                                       name="email"><br>
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-control"
+                                       name="password">
+                            </div>
+                            <div class="col-md-12">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="name" placeholder="Enter name"><br>
-                                    @error('name')
-                                    <spam class="text-danger">
-                                        {{ $message }}
-                                    </spam>
-                                    @enderror<input type="email" class="form-control" name="email" placeholder="Enter email"><br>
-                                    @error('email')
-                                    <spam class="text-danger">
-                                        {{ $message }}
-                                    </spam>
-                                    @enderror<input type="password" class="form-control" name="password" placeholder="Enter password"><br>
-                                    @error('password')
-                                    <spam class="text-danger">
-                                        {{ $message }}
-                                    </spam>
-                                    @enderror
+                                    <label>Roles</label>
+                                    <select name="roles[]" class="select2"
+                                            multiple="multiple"
+                                            data-placeholder="Select a Role"
+                                            aria-label="Select roles"
+                                            style="width: 100%;">
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->id }}">
+                                                {{ $role->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
+                            <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Close
+                            </button>
+                            <button type="submit" class="btn btn-primary">Add
+                            </button>
                         </form>
                     </div>
                 </div>

@@ -1,21 +1,22 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Middleware\Check;
 use Illuminate\Support\Facades\Route;
 
 //login
-Route::get('/', [\App\Http\Controllers\AuthController::class, 'loginPage'])->name('loginPage');
-Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
+Route::get('/', [AuthController::class, 'loginPage'])->name('loginPage');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 //register
-Route::get('/register', [\App\Http\Controllers\AuthController::class, 'registerPage'])->name('registerPage');
-Route::post('/register', [\App\Http\Controllers\AuthController::class, 'register'])->name('register');
+Route::get('/register', [AuthController::class, 'registerPage'])->name('registerPage');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
 //logout
-Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 //pages
 
 //student
-Route::middleware(['check:admin,student'])->group(function () {
+Route::middleware(['check'])->group(function () {
     Route::get('/student', [\App\Http\Controllers\StudentController::class, 'index'])->name('student');
     Route::get('/student-create', [\App\Http\Controllers\StudentController::class, 'create'])->name('student.create');
     Route::post('/student-create', [\App\Http\Controllers\StudentController::class, 'store'])->name('student.store');
@@ -23,7 +24,7 @@ Route::middleware(['check:admin,student'])->group(function () {
     Route::get('/student-delete{id}', [\App\Http\Controllers\StudentController::class, 'destroy'])->name('student.destroy');
 });
 //post
-Route::middleware(['check:admin,post'])->group(function () {
+Route::middleware(['check'])->group(function () {
     Route::get('/post', [\App\Http\Controllers\PostController::class, 'index'])->name('post');
     Route::get('/post-create', [\App\Http\Controllers\PostController::class, 'create'])->name('post.create');
     Route::post('/post-create', [\App\Http\Controllers\PostController::class, 'store'])->name('post.store');
@@ -31,7 +32,7 @@ Route::middleware(['check:admin,post'])->group(function () {
     Route::get('/post-delete/{id}', [\App\Http\Controllers\PostController::class, 'destroy'])->name('post.destroy');
 });
 //category
-Route::middleware(['check:admin,category'])->group(function () {
+Route::middleware(['check'])->group(function () {
     Route::get('/category',[\App\Http\Controllers\CategoryController::class,'index'])->name('category');
     Route::get('/category-create', [\App\Http\Controllers\CategoryController::class, 'create'])->name('category.create');
     Route::post('/category-create', [\App\Http\Controllers\CategoryController::class, 'store'])->name('category.store');
@@ -39,7 +40,7 @@ Route::middleware(['check:admin,category'])->group(function () {
     Route::get('/category-delete/{id}', [\App\Http\Controllers\CategoryController::class, 'destroy'])->name('category.destroy');
 });
 //product
-Route::middleware(['check:admin,product'])->group(function () {
+Route::middleware(['check'])->group(function () {
     Route::get('/product',[App\Http\Controllers\ProductController::class,'index'])->name('product');
     Route::get('/product-create', [\App\Http\Controllers\ProductController::class, 'create'])->name('product.create');
     Route::post('/product-create', [\App\Http\Controllers\ProductController::class, 'store'])->name('product.store');
@@ -47,7 +48,7 @@ Route::middleware(['check:admin,product'])->group(function () {
     Route::get('/product-delete/{id}', [\App\Http\Controllers\ProductController::class, 'destroy'])->name('product.destroy');
 });
 //car
-Route::middleware(['check:admin,car'])->group(function () {
+Route::middleware(['check'])->group(function () {
     Route::get('/car',[\App\Http\Controllers\CarController::class,'index'])->name('car');
     Route::get('/car-create', [\App\Http\Controllers\CarController::class, 'create'])->name('car.create');
     Route::post('/car-create', [\App\Http\Controllers\CarController::class, 'store'])->name('car.store');
@@ -55,7 +56,13 @@ Route::middleware(['check:admin,car'])->group(function () {
     Route::get('/car-delete/{id}', [\App\Http\Controllers\CarController::class, 'destroy'])->name('car.destroy');
 });
 //only admin
-Route::middleware(['check:admin'])->group(function () {
+Route::middleware(['check'])->group(function () {
+    Route::get('/permissions', [PermissionController::class, 'index'])->name('permission');
+    Route::get('/permissions-create', [PermissionController::class, 'create'])->name('permission.create');
+    Route::post('/permissions-create', [PermissionController::class, 'store'])->name('permission.store');
+    Route::put('/permissions/{permission}', [PermissionController::class, 'update'])->name('permission.update');
+    Route::get('/permissions-delete/{id}', [PermissionController::class, 'destroy'])->name('permission.destroy');
+
     Route::get('/roles', [\App\Http\Controllers\RolesController::class, 'index'])->name('role');
     Route::get('/roles-create', [\App\Http\Controllers\RolesController::class, 'create'])->name('role.create');
     Route::post('/roles-create', [\App\Http\Controllers\RolesController::class, 'store'])->name('role.store');

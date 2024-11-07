@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Car;
 use App\Http\Controllers\Controller;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class CarController
@@ -22,46 +23,38 @@ class CarController
      */
     public function create()
     {
-        //
+        return view('car.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'model' => 'required|max:255',
+            'color' => 'required|max:255',
+            'price' => 'required'
+        ]);
+
+        Car::create($data);
+
+        return redirect()->route('car');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Car $car)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Car $car)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Car $car)
     {
-        //
+        $data = $request->validate([
+            'model' => 'required|max:255',
+            'color' => 'required|max:255',
+            'price' => 'required',
+        ]);
+        $car->update($data);
+        return redirect()->route('car');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Car $car)
+    public function destroy(Request $request, Car $car)
     {
-        //
+        $id = $request->id;
+        $destroy = Car::findOrFail($id);
+        $destroy->delete();
+        return redirect()->route('car');
     }
 }

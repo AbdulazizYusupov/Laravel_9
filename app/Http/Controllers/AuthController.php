@@ -24,7 +24,7 @@ class AuthController
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect('/student')->with('success', 'You are logged in successfully.');
         } else {
-            return redirect('/login');
+            return redirect('/');
         }
     }
     public function registerPage()
@@ -60,21 +60,21 @@ class AuthController
     }
     public function create()
     {
-        return view('users.create');
+        $roles = Roles::all();
+        return view('users.create',["roles" => $roles]);
     }
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
+        $data = $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6',
+            'roles' => 'required',
         ]);
-        $data = new User();
-        $data->name = $request->name;
-        $data->email = $request->email;
-        $data->password = $request->password;
-        $data->save();
-        return redirect()->route('user');
+        $role = User::create($data);
+        $role->roles()->attach($request->roles);
+
+        return redirect(route('user'))->with('create', 'Created');
     }
     public function update(Request $request, User $user)
     {

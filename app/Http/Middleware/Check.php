@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Permission;
 use Closure;
-use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,12 +17,21 @@ class Check
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        $userRoles = Auth::user()->roles;
+        $routename = $request->route()->getName();
 
-        if(Auth::check() && $userRoles->whereIn('name',$roles)->first())
-        {
-            return $next($request);
+        if (Auth::check()) {
+            if (Permission::where('key', $routename)->first()) {
+                $role = Auth::user()->roles->first();
+                if ($role->permissions()->where('key', $routename)->exists()) {
+                    return $next($request);
+                } else {
+                    abort(403);
+                }
+            } else {
+                abort(404);
+            }
+        } else {
+            return redirect()->route('loginPage');
         }
-        abort(403);
     }
 }

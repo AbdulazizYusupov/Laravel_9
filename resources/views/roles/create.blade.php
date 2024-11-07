@@ -21,21 +21,35 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <form action="{{route('role.create')}}" method="POST">
+                        <form action="{{ route('role.store') }}"
+                              method="POST">
                             @csrf
-                            <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label">Name</label>
+                                <input type="text" class="form-control"
+                                       name="name">
+                            </div>
+                            <div class="col-md-12">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="name" placeholder="Enter name"><br>
-                                    @error('name')
-                                    <spam class="text-danger">
-                                        {{ $message }}
-                                    </spam>
-                                    @enderror
+                                    <label>Permissions</label>
+                                    <select name="permissions[]" class="select2"
+                                            multiple="multiple"
+                                            data-placeholder="Select a Permission"
+                                            aria-label="Select permissions"
+                                            style="width: 100%;">
+                                        @foreach ($permissions as $per)
+                                            <option value="{{ $per->id }}">
+                                                {{ $per->key }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
+                            <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Close
+                            </button>
+                            <button type="submit" class="btn btn-primary">Add
+                            </button>
                         </form>
                     </div>
                 </div>

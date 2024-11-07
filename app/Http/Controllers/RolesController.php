@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Permission;
 use App\Models\Roles;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -14,8 +15,9 @@ class RolesController
      */
     public function index()
     {
+        $permissions = Permission::all();
         $roles = Roles::orderBy('id', 'asc')->paginate(10);
-        return view('roles.index', ['roles' => $roles]);
+        return view('roles.index', ['roles' => $roles,'permissions' => $permissions]);
     }
 
     /**
@@ -23,33 +25,28 @@ class RolesController
      */
     public function create()
     {
-        return view('roles.create');
+        $permissions = Permission::all();
+        return view('roles.create',['permissions' => $permissions]);
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'name' => 'required|max:255',
+            'permissions' => 'required',
         ]);
-        $data = [
-          'name' => $request->name,
-          'is_active' => 1,
-        ];
-
-        Roles::create($data);
+        $role = Roles::create($data);
+        $role->permissions()->attach($request->permissions);
 
         return redirect(route('role'))->with('create', 'Created');
     }
 
     public function update(Request $request, Roles $role)
     {
-        $request->validate([
-            'name' => 'required|max:255',
-        ]);
         $role->name = $request->name;
+        $role->permissions()->sync($request->permissions);
         $role->save();
-
-        return redirect(route('role'))->with('update', 'Updated');
+        return redirect()->route('role')->with('update', 'Updated');
     }
 
     public function destroy(Request $request, Roles $roles)
